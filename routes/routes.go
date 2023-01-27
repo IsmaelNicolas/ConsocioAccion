@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"github.com/IsmaelNicolas/ConsocioAccion/controllers"
+	"ConsocioAccion/controllers"
+
 	"github.com/gofiber/fiber/v2"
 )
 

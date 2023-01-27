@@ -1,5 +1,6 @@
 import React from "react";
 import { MdHome, MdPeopleAlt, MdInfo,MdExitToApp } from "react-icons/md";
+import MenuItem from "./MenuItem";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
@@ -8,35 +9,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         isOpen ? "Open" : "hidden"
       } shadow-md`}
     >
-      <nav className="flex flex-col h-full shadow-lg">
-        <a
-          href="#"
-          className="text-white font-medium block py-2 px-3 hover:bg-gray-700 flex items-center"
-        >
-          <MdHome className="text-white text-2xl" />
-          <span className="ml-2">Principal</span>
-        </a>
-        <a
-          href="#"
-          className="text-white font-medium block py-2 px-3 hover:bg-gray-700 flex items-center"
-        >
-          <MdPeopleAlt className="text-white text-2xl" />
-          <span className="ml-2">Clientes</span>
-        </a>
-        <a
-          href="#"
-          className="text-white font-medium block py-2 px-3 hover:bg-gray-700 flex items-center"
-        >
-          <MdInfo className="text-white text-2xl" />
-          <span className="ml-2">Sobre nosotros</span>
-        </a>
-        <a
-          href="#"
-          className="text-white font-medium block py-2 px-3 hover:bg-gray-700 flex items-center"
-        >
-          <MdExitToApp className="text-white text-2xl" />
-          <span className="ml-2">Cerrar Session</span>
-        </a>
+      <nav className="flex flex-col h-screen shadow-lg align-middle">
+        <MenuItem text = {"Principal"} icon= {<MdHome/>} path={"/home"}/>
+        <MenuItem text = {"Clientes"} icon= {<MdPeopleAlt/>} path={"/clients"}/>
+        <MenuItem text = {"Sobre Nosotros"} icon= {<MdInfo/>} path={"/about"}/>
+        <MenuItem text = {"Cerrar Session"} icon= {<MdExitToApp/>} path={"/logout"}/>
       </nav>
     </aside>
   );

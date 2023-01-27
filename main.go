@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/IsmaelNicolas/ConsocioAccion/database"
-	"github.com/IsmaelNicolas/ConsocioAccion/routes"
+	"ConsocioAccion/database"
+	"ConsocioAccion/routes"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -19,6 +20,6 @@ func main() {
 
 	routes.Setup(app)
 
-	app.Listen(":8000")
+	app.Listen(":8080")
 
 }

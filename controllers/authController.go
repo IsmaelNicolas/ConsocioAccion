@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"strconv"
+	"ConsocioAccion/database"
+	"ConsocioAccion/models"
+	"ConsocioAccion/utils"
 	"time"
 
-	"github.com/IsmaelNicolas/ConsocioAccion/database"
-	"github.com/IsmaelNicolas/ConsocioAccion/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"golang.org/x/crypto/bcrypt"
+	uuid "github.com/satori/go.uuid"
 )
 
 const SecretKey = "secret"
@@ -20,15 +20,27 @@ func Register(c *fiber.Ctx) error {
 		return err
 	}
 
-	password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
+	password := utils.GennerateSHA3(data["password_employee"])
 
-	user := models.User{
-		Name:     data["name"],
-		Email:    data["email"],
-		Password: password,
+	user := models.Employee{
+		Id_employee:       uuid.NewV4().String(),
+		Name_employee:     data["name_employee"],
+		Lastname_employee: data["lastname_employee"],
+		Email_employee:    data["email_employee"],
+		Position_employee: data["position_employee"],
+		Password_employee: password,
+		Permissions:       data["permissions"],
 	}
 
-	database.DB.Create(&user)
+	request := "INSERT INTO consorcio.employee (ID_EMPLOYEE, NAME_EMPLOYEE, LASTNAME_EMPLOYEE, EMAIL_EMPLOYEE, POSITION_EMPLOYEE, PASSWORD_EMPLOYEE, PERMISSIONS) VALUES(?, ?, ?, ?, ?, ?, ?);"
+
+	err := database.Insert(request, user.Id_employee, user.Name_employee, user.Lastname_employee, user.Email_employee, user.Position_employee, user.Password_employee, user.Permissions)
+	if err != nil {
+		c.Status(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"message": err,
+		})
+	}
 
 	return c.JSON(user)
 }
@@ -40,18 +52,25 @@ func Login(c *fiber.Ctx) error {
 		return err
 	}
 
-	var user models.User
+	var user models.Employee
 
-	database.DB.Where("email = ?", data["email"]).First(&user)
+	request := "SELECT * FROM employee WHERE email_employee = '" + data["email_employee"] + "'"
+	user, er := database.SelectEmployee(request)
+	if er != nil {
+		c.Status(fiber.StatusNotFound)
+		return c.JSON(fiber.Map{
+			"message": er,
+		})
+	}
 
-	if user.Id == 0 {
+	if user.Id_employee == "" {
 		c.Status(fiber.StatusNotFound)
 		return c.JSON(fiber.Map{
 			"message": "user not found",
 		})
 	}
 
-	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
+	if user.Password_employee != utils.GennerateSHA3(data["password_employee"]) {
 		c.Status(fiber.StatusBadRequest)
 		return c.JSON(fiber.Map{
 			"message": "incorrect password",
@@ -59,7 +78,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.Id)),
+		Issuer:    user.Id_employee,
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), //1 day
 	})
 
@@ -81,9 +100,7 @@ func Login(c *fiber.Ctx) error {
 
 	c.Cookie(&cookie)
 
-	return c.JSON(fiber.Map{
-		"message": "success",
-	})
+	return c.JSON(user)
 }
 
 func User(c *fiber.Ctx) error {
@@ -102,9 +119,17 @@ func User(c *fiber.Ctx) error {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	var user models.User
+	var user models.Employee
 
-	database.DB.Where("id = ?", claims.Issuer).First(&user)
+	request := "SELECT * FROM employee WHERE id_employee = '" + claims.Issuer + "';"
+	user, er := database.SelectEmployee(request)
+
+	if er != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"message": er,
+		})
+	}
 
 	return c.JSON(user)
 }
