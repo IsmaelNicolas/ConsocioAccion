@@ -130,7 +130,6 @@ func User(c *fiber.Ctx) error {
 			"message": er,
 		})
 	}
-
 	return c.JSON(user)
 }
 

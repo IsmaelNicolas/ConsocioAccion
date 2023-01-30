@@ -90,3 +90,9 @@ func SelectEmployee(request string) (models.Employee, *string) {
 	return user, nil
 
 }
+
+/*
+func SelectCLients()([]models.Client,*string){
+
+}
+*/

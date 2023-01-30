@@ -1,25 +1,59 @@
 import React from "react";
 import Logo from "../components/Logo";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Alert from "../components/Alert";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
+  const navigateToHome = () => {
+    setRedirect(true);
+    navigate("/home");
+  }
   
+  useEffect(() => {
+    if (redirect) {
+      navigateToHome();
+    }
+  }, [redirect]);
+
+  //useEffect(() => {
+    //setShowModal(true);
+  //}, [showModal]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Enviar datos del formulario al servidor o realizar otra acción
     console.log(email, password);
-    setRedirect(true);
-
-    if (redirect) {
-        navigate("/home")
-    }
+    fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials:'include',
+      body: JSON.stringify({
+        email_employee: email,
+        password_employee: password,
+      }),
+    })
+      .then((response) => {
+        if(response.ok) return response.json();
+        throw new Error('Error: '+response.status);
+      })
+      .then((data) => {
+        console.log(data);
+        setRedirect(true);
+      })
+      .catch((error) => setShowModal(true));
 
   };
+
+  
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -67,6 +101,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <Alert show={showModal} handleClose={() => setShowModal(false)} title={"Error"} message={"Datos incorrectos"}/>
     </div>
   );
 };

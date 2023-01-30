@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"ConsocioAccion/database"
 	"ConsocioAccion/models"
 	"fmt"
 
@@ -26,12 +25,12 @@ func getClients(c *fiber.Ctx) error {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	var user models.Employee
+	var clients []models.Client
 
-	fmt.Println(claims, user)
+	fmt.Println(claims, clients)
 
-	request := "SELECT * FROM employee WHERE id_employee = '" + claims.Issuer + "';"
-	user, er := database.SelectEmployee(request)
+	//request := "SELECT ID_CLIENT,  NAME_CLIENT, LASTNAME_CLIENT, PHONE_CLIENT,  EMAIL_CLIENT FROM clients WHERE id_employee = '" + claims.Issuer + "';"
+	/*clients, er := database.SelectEmployee(request)
 
 	if er != nil {
 		c.Status(fiber.StatusBadRequest)
@@ -39,6 +38,6 @@ func getClients(c *fiber.Ctx) error {
 			"message": er,
 		})
 	}
-
+	*/
 	return c.JSON(fiber.Map{"message": "clients"})
 }

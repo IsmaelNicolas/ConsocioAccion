@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
+import Home, { loaderHome } from "../pages/Home";
 import Login from "../pages/Login";
-import Clients, { loaderBlogs } from "../pages/Clients";
+import Clients  from "../pages/Clients";
 import NotFound from "../pages/NotFound";
+import Logout,{loaderLogout} from "../components/Logout"
 import LayoutPublic from "../layout/layoutPublic";
 
 export const router = createBrowserRouter([
@@ -14,10 +15,12 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        loader: loaderHome
       },
       {
         path: "/home",
         element: <Home />,
+        loader: loaderHome
       },
       {
         path: "/login",
@@ -27,6 +30,11 @@ export const router = createBrowserRouter([
         path: "/clients",
         element: <Clients />,
       },
+      {
+        path: "logout",
+        element: <Logout/>,
+        loader:loaderLogout
+      }
     ],
   },
 ]);
