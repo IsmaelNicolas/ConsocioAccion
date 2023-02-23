@@ -30,7 +30,16 @@ func main() {
 		port = "5000"
 
 	}
+	go func() {
+		if err := app.Listen(":" + port); err != nil {
+			log.Fatalf("Error al iniciar la aplicación: %v", err)
+		}
+	}()
+
 	log.Printf("Listening on port %s\n\n", port)
-	app.Listen(port)
+
+	// Mantenemos el programa principal en ejecución
+	// mientras la goroutine del servidor está en funcionamiento.
+	<-make(chan struct{})
 
 }
