@@ -3,6 +3,8 @@ package main
 import (
 	"ConsocioAccion/database"
 	"ConsocioAccion/routes"
+	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -22,6 +24,13 @@ func main() {
 
 	routes.Setup(app)
 
-	app.Listen("0.0.0.0:8080")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+
+	}
+	log.Printf("Listening on port %s\n\n", port)
+	app.Listen(port)
 
 }
