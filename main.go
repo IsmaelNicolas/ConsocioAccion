@@ -3,7 +3,6 @@ package main
 import (
 	"ConsocioAccion/database"
 	"ConsocioAccion/routes"
-	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -27,19 +26,21 @@ func main() {
 	port := os.Getenv("PORT")
 
 	if port == "" {
-		port = "5000"
+		port = "8080"
 
 	}
-	go func() {
-		if err := app.Listen(":" + port); err != nil {
-			log.Fatalf("Error al iniciar la aplicación: %v", err)
-		}
-	}()
+	app.Listen(":" + port)
+	/*
+		go func() {
+			if err := app.Listen(":" + port); err != nil {
+				log.Fatalf("Error al iniciar la aplicación: %v", err)
+			}
+		}()
 
-	log.Printf("Listening on port %s\n\n", port)
+		log.Printf("Listening on port %s\n\n", port)
 
-	// Mantenemos el programa principal en ejecución
-	// mientras la goroutine del servidor está en funcionamiento.
-	<-make(chan struct{})
-
+		// Mantenemos el programa principal en ejecución
+		// mientras la goroutine del servidor está en funcionamiento.
+		<-make(chan struct{})
+	*/
 }
