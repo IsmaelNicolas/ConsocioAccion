@@ -2,6 +2,7 @@ package models
 
 type Employee struct {
 	Id_employee       string `json:"id_employee"`
+	Emp_Id_employee   string
 	Name_employee     string `json:"name_employee"`
 	Lastname_employee string `json:"lastname_employee"`
 	Email_employee    string `json:"email_employee" `

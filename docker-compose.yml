@@ -13,3 +13,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=toor
       - MYSQL_DATABASE=consorcio
+    volumes:
+      - db-data:/var/lib/mysql
+volumes:
+  db-data:

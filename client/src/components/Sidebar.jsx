@@ -1,6 +1,7 @@
 import React from "react";
 import { MdHome, MdPeopleAlt, MdInfo,MdExitToApp } from "react-icons/md";
 import MenuItem from "./MenuItem";
+import MenuItemCollapse from "./MenuItemCollapse";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
@@ -11,7 +12,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     >
       <nav className="flex flex-col h-screen shadow-lg align-middle">
         <MenuItem text = {"Principal"} icon= {<MdHome/>} path={"/home"}/>
-        <MenuItem text = {"Clientes"} icon= {<MdPeopleAlt/>} path={"/clients"}/>
+        <MenuItemCollapse text = {"Clientes"} icon= {<MdPeopleAlt/>} path1={"/clients/register"} path2={"/clients/search"}/>
         <MenuItem text = {"Sobre Nosotros"} icon= {<MdInfo/>} path={"/about"}/>
         <MenuItem text = {"Cerrar Session"} icon= {<MdExitToApp/>} path={"/logout"}/>
       </nav>

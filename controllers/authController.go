@@ -4,11 +4,11 @@ import (
 	"ConsocioAccion/database"
 	"ConsocioAccion/models"
 	"ConsocioAccion/utils"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	uuid "github.com/satori/go.uuid"
 )
 
 const SecretKey = "secret"
@@ -23,7 +23,7 @@ func Register(c *fiber.Ctx) error {
 	password := utils.GennerateSHA3(data["password_employee"])
 
 	user := models.Employee{
-		Id_employee:       uuid.NewV4().String(),
+		Emp_Id_employee:   data["emp_id_emp"],
 		Name_employee:     data["name_employee"],
 		Lastname_employee: data["lastname_employee"],
 		Email_employee:    data["email_employee"],
@@ -32,11 +32,12 @@ func Register(c *fiber.Ctx) error {
 		Permissions:       data["permissions"],
 	}
 
-	request := "INSERT INTO consorcio.employee (ID_EMPLOYEE, NAME_EMPLOYEE, LASTNAME_EMPLOYEE, EMAIL_EMPLOYEE, POSITION_EMPLOYEE, PASSWORD_EMPLOYEE, PERMISSIONS) VALUES(?, ?, ?, ?, ?, ?, ?);"
+	request := "INSERT INTO employee (ID_EMPLOYEE, EMP_ID_EMPLOYEE, NAME_EMPLOYEE, LASTNAME_EMPLOYEE, EMAIL_EMPLOYEE, PASSWORD_EMPLOYEE, PERMISSIONS,POSITION_EMPLOYEE) VALUES(uuid(), ?, ?, ?, ?, ?, 'emp','emp');"
 
-	err := database.Insert(request, user.Id_employee, user.Name_employee, user.Lastname_employee, user.Email_employee, user.Position_employee, user.Password_employee, user.Permissions)
+	err := database.Insert(request, user.Emp_Id_employee, user.Name_employee, user.Lastname_employee, user.Email_employee, user.Password_employee)
 	if err != nil {
 		c.Status(fiber.StatusInternalServerError)
+		fmt.Println("error")
 		return c.JSON(fiber.Map{
 			"message": err,
 		})
@@ -57,7 +58,7 @@ func Login(c *fiber.Ctx) error {
 	request := "SELECT * FROM employee WHERE email_employee = '" + data["email_employee"] + "'"
 	user, er := database.SelectEmployee(request)
 	if er != nil {
-		c.Status(fiber.StatusNotFound)
+		c.Status(fiber.StatusConflict)
 		return c.JSON(fiber.Map{
 			"message": er,
 		})
@@ -96,10 +97,13 @@ func Login(c *fiber.Ctx) error {
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: true,
+		SameSite: "None",
 	}
 
 	c.Cookie(&cookie)
 
+	c.Status(fiber.StatusOK)
+	c.Type("json")
 	return c.JSON(user)
 }
 
@@ -118,6 +122,7 @@ func User(c *fiber.Ctx) error {
 	}
 
 	claims := token.Claims.(*jwt.StandardClaims)
+	fmt.Println("status", claims.Issuer)
 
 	var user models.Employee
 
@@ -130,15 +135,24 @@ func User(c *fiber.Ctx) error {
 			"message": er,
 		})
 	}
+
+	c.Status(fiber.StatusOK)
+	c.Type("json")
 	return c.JSON(user)
 }
 
 func Logout(c *fiber.Ctx) error {
+
+	cookies := c.Cookies("jwt")
+
+	fmt.Println(cookies)
+
 	cookie := fiber.Cookie{
 		Name:     "jwt",
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: true,
+		SameSite: "None",
 	}
 
 	c.Cookie(&cookie)

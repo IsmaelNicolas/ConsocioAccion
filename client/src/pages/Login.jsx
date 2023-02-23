@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../components/Logo";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
 
@@ -14,46 +14,43 @@ const Login = () => {
   const navigateToHome = () => {
     setRedirect(true);
     navigate("/home");
-  }
-  
+  };
+
   useEffect(() => {
     if (redirect) {
       navigateToHome();
     }
   }, [redirect]);
 
-  //useEffect(() => {
-    //setShowModal(true);
-  //}, [showModal]);
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Enviar datos del formulario al servidor o realizar otra acción
-    console.log(email, password);
-    fetch("http://localhost:8080/api/login", {
+    //console.log(email, password);
+    const response = await fetch("http://localhost:8080/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials:'include',
+      credentials: "include",
       body: JSON.stringify({
         email_employee: email,
         password_employee: password,
       }),
-    })
-      .then((response) => {
-        if(response.ok) return response.json();
-        throw new Error('Error: '+response.status);
-      })
-      .then((data) => {
-        console.log(data);
-        setRedirect(true);
-      })
-      .catch((error) => setShowModal(true));
+    }).catch((error) => {
+      console.log("no valeee", error);
+      setShowModal(true);
+    });
 
+    const status = await response.status;
+    const data = await response.json();
+    console.log({ perm: data.permissions, status: status });
+    if (status == 200 && data.permissions == "admin") {
+      navigate("/admin");
+    } 
+    if (status == 200 &&data.permissions == "emp"){
+      navigate("/home");
+    }
   };
-
-  
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -68,7 +65,7 @@ const Login = () => {
           <div className="card-body">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text text-primary">Email</span>
               </label>
               <input
                 type="text"
@@ -101,7 +98,12 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <Alert show={showModal} handleClose={() => setShowModal(false)} title={"Error"} message={"Datos incorrectos"}/>
+      <Alert
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        title={"Error"}
+        message={"Datos incorrectos"}
+      />
     </div>
   );
 };

@@ -8,12 +8,10 @@ const  Home = () => {
 
   const navigate = useNavigate();
 
-  const { data,user } = useLoaderData();
-
-  console.log(user.name_employee)
+  const { status,user } = useLoaderData();
 
   useEffect(()=>{
-    if (data.status !=200) {
+    if (status !=200) {
       navigate("/login");
     }
   },[])
@@ -36,7 +34,9 @@ export const loaderHome = async () => {
       "Content-Type": "application/json",
     },
     credentials:'include'
-  });
+  })
   const user = await data.json()
-  return { "data":data,"user":user };
+  const status = await data.status;
+  console.log(status)
+  return { "status":status,"user":user };
 };

@@ -1,24 +1,26 @@
 package models
 
 type Client struct {
-	id_client             string
-	id_employee           string
-	name_client           string
-	lastname_client       string
-	phone_client          string
-	type_client           string
-	email_client          string
-	date_suscribe         string
-	city_subscribe        string
-	spouse_name           string
-	spouse_ocupation      string
-	spouse_direction      string
-	spouse_salary         string
-	spouse_entity         string
-	direction_client      string
-	ocupation_client      string
-	salary_client         string
-	marital_status_client string
+	Id_client             string
+	Name_client           string
+	Lastname_client       string
+	Phone_client          string
+	Type_client           string
+	Email_client          string
+	Date_suscribe         string
+	City_suscribe         string
+	Spouse_name           string
+	Spouse_ocupation      string
+	Spouse_direction      string
+	Spouse_salary         float32
+	Spouse_entity         string
+	Direction_client      string
+	Ocupation_client      string
+	Salary_client         float32
+	Marital_status_client string
+	Entity_client         string
+	Direction_entity      string
+	Entity_name           string
 }
 
 func (Client) TableName() string {
