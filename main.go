@@ -20,7 +20,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	app.Static("/", "./client/dist")
+	app.Static("/", "/client/dist")
 
 	routes.Setup(app)
 
