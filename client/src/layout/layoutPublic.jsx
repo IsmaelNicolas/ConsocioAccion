@@ -28,7 +28,7 @@ export default LayoutPublic;
 
 export const loaderPublic = async () => {
 
-  const data = await fetch("http://toorblue.com:8080/api/user", {
+  const data = await fetch("https://toorblue.com/api/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

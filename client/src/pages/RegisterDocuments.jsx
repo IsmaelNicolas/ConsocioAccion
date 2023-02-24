@@ -39,7 +39,7 @@ const RegisterDocument = () => {
 
     console.log(formData);
     const status = await fetch(
-      "http://toorblue.com:8080/api/clients/insert/economiccard",
+      "https://toorblue.com/api/clients/insert/economiccard",
       {
         method: "POST",
         headers: {

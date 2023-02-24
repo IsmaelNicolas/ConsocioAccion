@@ -30,7 +30,7 @@ const Logout = () => {
 export default Logout;
 
 export const loaderLogout = async () => {
-  const logi = await fetch("http://toorblue.com:8080/api/logout", {
+  const logi = await fetch("https://toorblue.com/api/logout", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

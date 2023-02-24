@@ -26,7 +26,7 @@ const Login = () => {
     event.preventDefault();
     // Enviar datos del formulario al servidor o realizar otra acción
     //console.log(email, password);
-    const response = await fetch("http://toorblue.com:8080/api/login", {
+    const response = await fetch("https://toorblue.com/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

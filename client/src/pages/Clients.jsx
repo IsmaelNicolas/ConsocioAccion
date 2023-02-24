@@ -73,7 +73,7 @@ const Clients = () => {
 export default Clients;
 
 export const loaderClients = async () => {
-  const data = await fetch("http://toorblue.com:8080/api/clients", {
+  const data = await fetch("https://toorblue.com/api/clients", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
