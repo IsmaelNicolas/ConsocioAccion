@@ -2,18 +2,6 @@ version: "4.15.0"
 services:
   app:
     build: .
+    network_mode: "host"
     ports:
       - "8080:8080"
-    links:
-      - database
-  database:
-    image: mysql
-    ports:
-      - "27017:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=consorcio
-    volumes:
-      - db-data:/var/lib/mysql
-volumes:
-  db-data:
