@@ -21,7 +21,7 @@ const Admin = () => {
       return;
     }
     const status = await fetch(
-      "http://localhost:8080/api/register",
+      "http://toorblue.com:8080/api/register",
       {
         method: "POST",
         headers: {
@@ -75,7 +75,7 @@ const Admin = () => {
 export default Admin;
 
 export const loaderAdmin = async () => {
-  const data = await fetch("http://localhost:8080/api/admin/employees", {
+  const data = await fetch("http://toorblue.com:8080/api/admin/employees", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

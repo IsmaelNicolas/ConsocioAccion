@@ -41,7 +41,7 @@ const Register = () => {
     evt.preventDefault();
     console.log(formData);
 
-    const status = await fetch("http://localhost:8080/api/clients/insert", {
+    const status = await fetch("http://toorblue.com:8080/api/clients/insert", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

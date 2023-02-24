@@ -200,28 +200,28 @@ export default Client;
 
 export const loaderClient = async ({ params }) => {
   const requests = [
-    fetch("http://localhost:8080/api/client/" + params.idClient, {
+    fetch("http://toorblue.com:8080/api/client/" + params.idClient, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
     }),
-    fetch("http://localhost:8080/api/spouse/" + params.idClient, {
+    fetch("http://toorblue.com:8080/api/spouse/" + params.idClient, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
     }),
-    fetch("http://localhost:8080/api/stage/" + params.idClient, {
+    fetch("http://toorblue.com:8080/api/stage/" + params.idClient, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
     }),
-    fetch("http://localhost:8080/api/economic/" + params.idClient, {
+    fetch("http://toorblue.com:8080/api/economic/" + params.idClient, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
