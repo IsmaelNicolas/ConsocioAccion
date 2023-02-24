@@ -47,15 +47,19 @@ func Register(c *fiber.Ctx) error {
 }
 
 func Login(c *fiber.Ctx) error {
+	fmt.Println("ok")
+
 	var data map[string]string
 
 	if err := c.BodyParser(&data); err != nil {
+		fmt.Println(err.Error())
 		return err
 	}
 
 	var user models.Employee
 
 	request := "SELECT * FROM employee WHERE email_employee = '" + data["email_employee"] + "'"
+
 	user, er := database.SelectEmployee(request)
 	if er != nil {
 		c.Status(fiber.StatusConflict)
@@ -64,6 +68,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	fmt.Println(user.Email_employee)
 	if user.Id_employee == "" {
 		c.Status(fiber.StatusNotFound)
 		return c.JSON(fiber.Map{
@@ -98,6 +103,7 @@ func Login(c *fiber.Ctx) error {
 		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: true,
 		SameSite: "None",
+		Secure:   true,
 	}
 
 	c.Cookie(&cookie)

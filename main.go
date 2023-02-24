@@ -22,7 +22,6 @@ func main() {
 	app.Static("/", "./build")
 
 	routes.Setup(app)
-
 	port := os.Getenv("PORT")
 
 	if port == "" {
@@ -30,6 +29,7 @@ func main() {
 
 	}
 	app.Listen(":" + port)
+
 	/*
 		go func() {
 			if err := app.Listen(":" + port); err != nil {
