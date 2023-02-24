@@ -10,7 +10,7 @@ import (
 
 func Connect() (db *sql.DB, e error) {
 	user := "prod"
-	pass := "drop"
+	pass := "dorp"
 	host := "tcp(toorblue.com)"
 	database := "inmobiliaria"
 
