@@ -41,7 +41,7 @@ const RegisterEmployee = ({handleChange,handleSubmit,employees,noti}) => {
                 <option disabled selected>
                   {"Superior"}
                 </option>
-                {employees.map((employee) => {
+                { employees?  (employees.map((employee) => {
                   const { id_employee, name_employee, lastname_employee } =
                     employee;
                   return (
@@ -49,7 +49,7 @@ const RegisterEmployee = ({handleChange,handleSubmit,employees,noti}) => {
                       {name_employee + " " + lastname_employee}
                     </option>
                   );
-                })}
+                })):(<></>)}
               </select>
               </div>
             </div>

@@ -46,10 +46,13 @@ const Admin = () => {
   const emps = [];
 
   // Loop through each employee to group them by their manager
-  employees.forEach((employee) => {
-    const { id_employee, name_employee, lastname_employee } = employee;
-    emps.push(name_employee + " " + lastname_employee);
-  });
+  if (employees!=null) {
+    
+    employees.forEach((employee) => {
+      const { id_employee, name_employee, lastname_employee } = employee;
+      emps.push(name_employee + " " + lastname_employee);
+    });
+  }
 
   return (
     <section className="bg-gray-100 py-12 h-screen">
