@@ -9,10 +9,10 @@ import (
 )
 
 func Connect() (db *sql.DB, e error) {
-	user := "bc260c8d2feddf"
-	pass := "59aabf90"
-	host := "tcp(us-cdbr-east-06.cleardb.net)"
-	database := "heroku_0d1be5564a47161"
+	user := "prod"
+	pass := "drop"
+	host := "tcp(toorblue.com)"
+	database := "inmobiliaria"
 
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@%s/%s", user, pass, host, database))
 
