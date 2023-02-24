@@ -27,9 +27,8 @@ const LayoutPublic = () => {
 export default LayoutPublic;
 
 export const loaderPublic = async () => {
-  const port = import.meta.env.PORT || "8080"
-  console.log(import.meta.env)
-  const data = await fetch("http://localhost:"+ port +"/api/user", {
+
+  const data = await fetch("http://localhost:8080/api/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
