@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useRouteError } from "react-router-dom";
 import Logo from "../components/Logo";
-import dotenv from 'dotenv'
 
 const NotFound = () => {
 
